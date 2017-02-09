@@ -21,7 +21,7 @@ sub get_param_list {
   {
    name => 'mail_delivery_method',
    type => 's',
-   choices => ['Sendmail', 'SMTP', 'Test', 'None'],
+   choices => ['Sendmail', 'SMTP', 'SMTP::TLS', 'Test', 'None'],
    default => 'Sendmail',
    checker => \&check_mail_delivery_method
   },
