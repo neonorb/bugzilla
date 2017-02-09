@@ -139,6 +139,11 @@ sub REQUIRED_MODULES {
         version => '1.904'
     },
     {
+    package => 'Email-Send-SMTP-TLS',
+        module  => 'Email::Send::SMTP::TLS',
+        version => '0.04',
+    },
+    {
         package => 'URI',
         module  => 'URI',
         # Follows RFC 3986 to escape characters in URI::Escape.
