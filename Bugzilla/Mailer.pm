@@ -26,7 +26,7 @@ use Date::Format qw(time2str);
 use Email::Sender::Simple qw(sendmail);
 use Email::Sender::Transport::SMTP::Persistent;
 use Bugzilla::Sender::Transport::Sendmail;
-use Email::Send::SMTP::TLS;
+use Email::Sender::Transport::SMTP::TLS;
 
 sub generate_email {
     my ($vars, $templates) = @_;
@@ -162,14 +162,15 @@ sub MessageToMTA {
     }
     if ($method eq "SMTP::TLS") {
         my ($host, $port) = split(/:/, Bugzilla->params->{'smtpserver'}, 2);
-          push my @args,
+        $transport = Bugzilla->request_cache->{smtp} //=
+          Email::Sender::Transport::SMTP::TLS->new({
             host  => $host,
             defined($port) ? (port => $port) : (),
-            sasl_username => Bugzilla->params->{'smtp_username'},
-            sasl_password => Bugzilla->params->{'smtp_password'},
+            username => Bugzilla->params->{'smtp_username'},
+            password => Bugzilla->params->{'smtp_password'},
             helo => $hostname,
             ssl => Bugzilla->params->{'smtp_ssl'},
-            debug => Bugzilla->params->{'smtp_debug'} ;
+            debug => Bugzilla->params->{'smtp_debug'} });
     }
 
     Bugzilla::Hook::process('mailer_before_send', { email => $email });
