@@ -683,7 +683,7 @@ sub _cleanup {
         $dbh->disconnect;
     }
     my $smtp = $cache->{smtp};
-    $smtp->disconnect if $smtp;
+    #$smtp->disconnect if $smtp;
     clear_request_cache();
 
     # These are both set by CGI.pm but need to be undone so that
